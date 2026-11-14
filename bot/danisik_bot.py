@@ -265,7 +265,7 @@ def generate_similar(item: dict, wish: str) -> str | None:
 
 HELP = (
     "Пришлите мне текст, фото, видео или перешлите пост.\n"
-    "Я сохраню его и предложу похожие варианты для вашего канала.\n\n"
+    "Я сохраню его, а Claude сделает похожие варианты.\n\n"
     "Подсказки:\n"
     "• Подпишите видео/фото, что нужно: «подпись под рилс», «пост в телегу» и т.п.\n"
     "• Начните сообщение с /save, чтобы только сохранить без генерации.\n"
@@ -302,14 +302,14 @@ def handle(tg: Telegram, msg: dict, allowed: set[int]) -> bool:
     print(f"  сохранено: {rel}")
 
     if save_only:
-        tg.send(chat_id, f"Сохранил: {rel}", reply_to=msg["message_id"])
+        tg.send(chat_id, "Сохранил ✅", reply_to=msg["message_id"])
         return True
 
     # Если сообщение не пересланное, а ваша подпись, считаем её пожеланием.
     wish = "" if item["source"] else item["text"]
     answer = generate_similar(item, wish)
     if answer is None:
-        tg.send(chat_id, f"Сохранил: {rel}\n(генерация выключена: нет ANTHROPIC_API_KEY)",
+        tg.send(chat_id, "Сохранил ✅\nКогда нужны варианты, напишите Claude: «посмотри inbox».",
                 reply_to=msg["message_id"])
         return True
 
