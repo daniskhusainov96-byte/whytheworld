@@ -235,7 +235,7 @@ def generate_similar(item: dict, wish: str) -> str | None:
         parts.append(f"Моё пожелание:\n{wish}")
     else:
         parts.append(f"Текст:\n{item['text'] or '(без текста)'}")
-        parts.append(wish or "Сделай похожий контент для моего канала.")
+        parts.append(wish or "Сделай похожий контент для моих каналов.")
     content.append({"type": "text", "text": "\n\n".join(parts)})
 
     client = anthropic.Anthropic()
